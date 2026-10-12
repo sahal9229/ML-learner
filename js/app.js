@@ -206,7 +206,11 @@ window.FML = window.FML || {};
       matches.sort((a, b) => b.score - a.score);
 
       if (matches.length === 0) {
-        results.innerHTML = `<div class="p-3 text-xs text-muted">No matching topics found for "${q}"</div>`;
+        results.innerHTML = '';
+        const emptyEl = document.createElement('div');
+        emptyEl.className = 'p-3 text-xs text-muted';
+        emptyEl.textContent = `No matching topics found for "${q}"`;
+        results.appendChild(emptyEl);
         results.hidden = false;
         return;
       }
