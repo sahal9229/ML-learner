@@ -1,0 +1,156 @@
+/* ============================================================
+   FREE MIND ML — lesson.css
+   Additional lesson-specific styles and overrides.
+   Most blog/lesson layout is now in components.css.
+   ============================================================ */
+
+/* ─── LESSON TAB BAR (LEGACY — kept for backward compat) ──── */
+.lesson-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.lesson-tab-pane {
+  animation: fadeInUp 0.3s var(--ease);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── LESSON HERO (LEGACY — kept for backward compat) ────── */
+.lesson-hero {
+  margin-bottom: 24px;
+}
+
+.lesson-title {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  color: var(--text-heading);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.lesson-desc {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+/* ─── LESSON VIEW WRAPPER (LEGACY) ───────────────────────── */
+.lesson-view {
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+/* ─── MATH SECTION ───────────────────────────────────────── */
+.math-section {
+  overflow-x: auto;
+}
+
+.math-content {
+  overflow-x: auto;
+}
+
+/* KaTeX overrides for blog style */
+.blog-prose .katex {
+  font-size: 1em;
+}
+
+.blog-prose .katex-display > .katex {
+  font-size: 1.1em;
+}
+
+/* ─── STEP-BY-STEP LIST ──────────────────────────────────── */
+.blog-prose .step-list {
+  counter-reset: step;
+  list-style: none;
+  padding-left: 0;
+  margin: 20px 0;
+}
+
+.blog-prose .step-list li {
+  counter-increment: step;
+  padding-left: 44px;
+  position: relative;
+  margin-bottom: 16px;
+  line-height: 1.7;
+}
+
+.blog-prose .step-list li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent-indigo);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+/* ─── PREREQUISITE CHIPS ─────────────────────────────────── */
+.prereq-chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.prereq-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all var(--duration) var(--ease);
+}
+
+.prereq-chip:hover {
+  border-color: var(--accent-indigo);
+  color: var(--accent-indigo);
+}
+
+/* ─── READING TIME INDICATOR ─────────────────────────────── */
+.reading-time {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.reading-time svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .lesson-title {
+    font-size: 1.6rem;
+  }
+}

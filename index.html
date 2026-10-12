@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Free Mind ML — An interactive machine learning and deep learning learning lab. Master ML from zero to state of the art with live visualizations, hands-on experiments, and colah's-blog-style explanations.">
+  <meta name="keywords" content="machine learning, deep learning, AI, neural networks, interactive tutorial, linear regression, logistic regression, knn">
+  <title>Free Mind ML — Interactive Learning Lab</title>
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Fonts: Playfair Display (editorial serif) + Inter (clean sans) + JetBrains Mono (code) -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- KaTeX for math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="if(window.FML && FML.renderMath) FML.renderMath()"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/lesson.css">
+  <link rel="stylesheet" href="css/demo.css">
+</head>
+<body>
+
+  <!-- ===================== GRAIN OVERLAY ===================== -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- ===================== SIDEBAR BACKDROP ===================== -->
+  <div class="sidebar-backdrop" id="sidebar-backdrop" aria-hidden="true"></div>
+
+  <!-- ===================== APP SHELL ===================== -->
+  <div class="app-shell" id="app-shell">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Primary navigation">
+
+      <div class="sidebar-inner">
+        <!-- Sidebar header -->
+        <div class="sidebar-header">
+          <a href="#/" class="logo" aria-label="Free Mind ML — home">
+            <div class="logo-mark">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="16" cy="16" r="6" fill="currentColor" opacity="0.3"/>
+                <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="16" y1="26" x2="16" y2="30" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="2" y1="16" x2="6" y2="16" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="26" y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <div class="logo-text">
+              <span class="logo-title">Free Mind</span>
+              <em class="logo-sub">ML</em>
+            </div>
+          </a>
+          <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
+        <!-- Search -->
+        <div class="sidebar-search">
+          <div class="search-wrap" role="search">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input
+              type="search"
+              id="global-search"
+              class="search-input"
+              placeholder="Search lessons, topics…"
+              autocomplete="off"
+              aria-label="Search lessons and topics"
+              aria-autocomplete="list"
+              aria-controls="search-results"
+            >
+            <kbd class="search-kbd" aria-hidden="true">⌘K</kbd>
+          </div>
+          <div class="search-results" id="search-results" role="listbox" aria-label="Search results" hidden></div>
+        </div>
+
+        <!-- Progress summary -->
+        <div class="sidebar-progress" id="sidebar-progress">
+          <div class="progress-ring-wrap">
+            <svg class="progress-ring" viewBox="0 0 56 56" aria-hidden="true">
+              <circle class="progress-ring-bg" cx="28" cy="28" r="22" fill="none" stroke-width="3"/>
+              <circle class="progress-ring-fill" id="prog-ring" cx="28" cy="28" r="22" fill="none" stroke-width="3"
+                stroke-dasharray="138.2" stroke-dashoffset="138.2" stroke-linecap="round"/>
+            </svg>
+            <span class="progress-pct" id="prog-pct">0%</span>
+          </div>
+          <div class="progress-info">
+            <span class="progress-label" id="prog-label">0 / 52 lessons</span>
+            <a class="progress-cta" href="#/progress">View progress</a>
+          </div>
+        </div>
+
+        <!-- Navigation — dynamically populated -->
+        <nav class="sidebar-nav" id="sidebar-nav" aria-label="Curriculum navigation">
+
+          <!-- Home -->
+          <a class="nav-item" href="#/" data-route="home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>Home</span>
+          </a>
+
+          <!-- Learning Paths -->
+          <a class="nav-item" href="#/path/beginner" data-route="path">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+            <span>Learning Paths</span>
+          </a>
+
+          <!-- FOUNDATIONS -->
+          <div class="nav-section" data-section="foundations">
+            <button class="nav-section-hdr" aria-expanded="true" aria-controls="sec-foundations">
+              <span class="nav-badge nav-badge--f">F</span>
+              <span class="nav-section-label">Foundations</span>
+              <span class="nav-count">7</span>
+              <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="nav-section-items" id="sec-foundations">
+              <a class="nav-lesson" href="#/lesson/F01" data-id="F01">AI, ML &amp; Deep Learning</a>
+              <a class="nav-lesson" href="#/lesson/F02" data-id="F02">Core Vocabulary</a>
+              <a class="nav-lesson" href="#/lesson/F03" data-id="F03">Train / Val / Test Splits</a>
+              <a class="nav-lesson" href="#/lesson/F04" data-id="F04">Learning Paradigms</a>
+              <a class="nav-lesson" href="#/lesson/F05" data-id="F05">Task Types</a>
+              <a class="nav-lesson" href="#/lesson/F06" data-id="F06">Overfitting &amp; Bias-Variance</a>
+              <a class="nav-lesson" href="#/lesson/F07" data-id="F07">Algorithm vs Model vs Architecture</a>
+            </div>
+          </div>
+
+          <!-- CLASSICAL SUPERVISED -->
+          <div class="nav-section" data-section="supervised">
+            <button class="nav-section-hdr" aria-expanded="false" aria-controls="sec-supervised">
+              <span class="nav-badge nav-badge--s">S</span>
+              <span class="nav-section-label">Classical Supervised</span>
+              <span class="nav-count">13</span>
+              <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="nav-section-items" id="sec-supervised" hidden>
+              <a class="nav-lesson" href="#/lesson/S01" data-id="S01">Linear &amp; Polynomial Regression</a>
+              <a class="nav-lesson" href="#/lesson/S02" data-id="S02">Logistic Regression</a>
+              <a class="nav-lesson" href="#/lesson/S03" data-id="S03">k-Nearest Neighbors</a>
+              <a class="nav-lesson" href="#/lesson/S04" data-id="S04">Naive Bayes</a>
+              <a class="nav-lesson" href="#/lesson/S05" data-id="S05">Decision Trees</a>
+              <a class="nav-lesson" href="#/lesson/S06" data-id="S06">Random Forests</a>
+              <a class="nav-lesson" href="#/lesson/S07" data-id="S07">Extra Trees</a>
+              <a class="nav-lesson" href="#/lesson/S08" data-id="S08">Bagging &amp; Boosting</a>
+              <a class="nav-lesson" href="#/lesson/S09" data-id="S09">Gradient Boosting</a>
+              <a class="nav-lesson" href="#/lesson/S10" data-id="S10">XGBoost / LightGBM / CatBoost</a>
+              <a class="nav-lesson" href="#/lesson/S11" data-id="S11">Support Vector Machines</a>
+              <a class="nav-lesson" href="#/lesson/S12" data-id="S12">Perceptron</a>
+              <a class="nav-lesson" href="#/lesson/S13" data-id="S13">Multilayer Perceptron</a>
+            </div>
+          </div>
+
+          <!-- UNSUPERVISED -->
+          <div class="nav-section" data-section="unsupervised">
+            <button class="nav-section-hdr" aria-expanded="false" aria-controls="sec-unsupervised">
+              <span class="nav-badge nav-badge--u">U</span>
+              <span class="nav-section-label">Unsupervised</span>
+              <span class="nav-count">8</span>
+              <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="nav-section-items" id="sec-unsupervised" hidden>
+              <a class="nav-lesson" href="#/lesson/U01" data-id="U01">k-Means &amp; k-Medoids</a>
+              <a class="nav-lesson" href="#/lesson/U02" data-id="U02">Hierarchical Clustering</a>
+              <a class="nav-lesson" href="#/lesson/U03" data-id="U03">DBSCAN &amp; HDBSCAN</a>
+              <a class="nav-lesson" href="#/lesson/U04" data-id="U04">Gaussian Mixture Models</a>
+              <a class="nav-lesson" href="#/lesson/U05" data-id="U05">Principal Component Analysis</a>
+              <a class="nav-lesson" href="#/lesson/U06" data-id="U06">t-SNE &amp; UMAP</a>
+              <a class="nav-lesson" href="#/lesson/U07" data-id="U07">Association Rule Learning</a>
+              <a class="nav-lesson" href="#/lesson/U08" data-id="U08">Anomaly Detection</a>
+            </div>
+          </div>
+
+          <!-- DEEP LEARNING -->
+          <div class="nav-section" data-section="deep">
+            <button class="nav-section-hdr" aria-expanded="false" aria-controls="sec-deep">
+              <span class="nav-badge nav-badge--d">D</span>
+              <span class="nav-section-label">Deep Learning</span>
+              <span class="nav-count">16</span>
+              <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="nav-section-items" id="sec-deep" hidden>
+              <a class="nav-lesson" href="#/lesson/D01" data-id="D01">Neurons &amp; Activation Functions</a>
+              <a class="nav-lesson" href="#/lesson/D02" data-id="D02">Forward &amp; Backpropagation</a>
+              <a class="nav-lesson" href="#/lesson/D03" data-id="D03">Gradient Descent</a>
+              <a class="nav-lesson" href="#/lesson/D04" data-id="D04">Loss Functions &amp; Optimizers</a>
+              <a class="nav-lesson" href="#/lesson/D05" data-id="D05">Multilayer Perceptron (Deep)</a>
+              <a class="nav-lesson" href="#/lesson/D06" data-id="D06">Convolutional Neural Networks</a>
+              <a class="nav-lesson" href="#/lesson/D07" data-id="D07">Recurrent Neural Networks</a>
+              <a class="nav-lesson" href="#/lesson/D08" data-id="D08">LSTMs &amp; GRUs</a>
+              <a class="nav-lesson" href="#/lesson/D09" data-id="D09">Autoencoders &amp; VAEs</a>
+              <a class="nav-lesson" href="#/lesson/D10" data-id="D10">Generative Adversarial Networks</a>
+              <a class="nav-lesson" href="#/lesson/D11" data-id="D11">Attention &amp; Transformers</a>
+              <a class="nav-lesson" href="#/lesson/D12" data-id="D12">Embeddings &amp; Representation</a>
+              <a class="nav-lesson" href="#/lesson/D13" data-id="D13">Large Language Models</a>
+              <a class="nav-lesson" href="#/lesson/D14" data-id="D14">Diffusion Models</a>
+              <a class="nav-lesson" href="#/lesson/D15" data-id="D15">Graph Neural Networks</a>
+              <a class="nav-lesson" href="#/lesson/D16" data-id="D16">Deep Reinforcement Learning</a>
+            </div>
+          </div>
+
+          <!-- ADVANCED -->
+          <div class="nav-section" data-section="advanced">
+            <button class="nav-section-hdr" aria-expanded="false" aria-controls="sec-advanced">
+              <span class="nav-badge nav-badge--a">A</span>
+              <span class="nav-section-label">Advanced Topics</span>
+              <span class="nav-count">8</span>
+              <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="nav-section-items" id="sec-advanced" hidden>
+              <a class="nav-lesson" href="#/lesson/A01" data-id="A01">Reinforcement Learning</a>
+              <a class="nav-lesson" href="#/lesson/A02" data-id="A02">Recommendation Systems</a>
+              <a class="nav-lesson" href="#/lesson/A03" data-id="A03">Time-Series Forecasting</a>
+              <a class="nav-lesson" href="#/lesson/A04" data-id="A04">Ensembles &amp; Stacking</a>
+              <a class="nav-lesson" href="#/lesson/A05" data-id="A05">Transfer Learning</a>
+              <a class="nav-lesson" href="#/lesson/A06" data-id="A06">Explainability</a>
+              <a class="nav-lesson" href="#/lesson/A07" data-id="A07">Responsible ML</a>
+              <a class="nav-lesson" href="#/lesson/A08" data-id="A08">Deployment Concepts</a>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="nav-divider" role="separator"></div>
+
+          <!-- Bottom nav items -->
+          <a class="nav-item" href="#/lab" data-route="lab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5s-2.5-1.1-2.5-2.5V2"/><path d="M8.5 2h7"/><path d="M14.5 16h-5"/><path d="M6.2 16H2v-4l4.2-1.4"/><path d="M17.8 16H22v-4l-4.2-1.4"/></svg>
+            <span>Learning Lab</span>
+            <span class="nav-badge-pill">Sandbox</span>
+          </a>
+          <a class="nav-item" href="#/catalog" data-route="catalog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Full Catalog</span>
+          </a>
+          <a class="nav-item" href="#/glossary" data-route="glossary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <span>Glossary</span>
+          </a>
+          <a class="nav-item" href="#/progress" data-route="progress">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            <span>My Progress</span>
+          </a>
+          <a class="nav-item" href="#/bookmarks" data-route="bookmarks">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            <span>Bookmarks</span>
+          </a>
+        </nav>
+
+        <!-- Sidebar footer -->
+        <div class="sidebar-footer">
+          <button class="btn-icon-sm" id="theme-toggle-sidebar" aria-label="Toggle theme">
+            <svg id="theme-icon-sidebar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </button>
+          <span class="sidebar-footer-label">52 lessons · No account needed</span>
+        </div>
+      </div><!-- /.sidebar-inner -->
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content" id="main-content" role="main">
+
+      <!-- Top bar -->
+      <header class="topbar" id="topbar">
+        <div class="topbar-left">
+          <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+            <span></span><span></span><span></span>
+          </button>
+          <nav class="breadcrumb" id="breadcrumb" aria-label="Breadcrumb">
+            <a href="#/">Home</a>
+          </nav>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-actions">
+            <button class="btn-icon" id="bookmark-toggle" aria-label="Bookmark this lesson" style="display:none">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </button>
+            <button class="btn-icon" id="theme-toggle" aria-label="Toggle theme">
+              <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page content (router renders here) -->
+      <div class="page-content" id="page-content">
+        <div class="loading-state" id="init-loader">
+          <div class="spinner"></div>
+          <p>Initialising lab…</p>
+        </div>
+      </div>
+
+      <!-- Lesson navigation footer (shown on lesson pages) -->
+      <div class="lesson-nav-footer" id="lesson-nav-footer" hidden>
+        <button class="btn-outline" id="prev-lesson">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          <span id="prev-lesson-label">Previous</span>
+        </button>
+        <button class="btn-primary" id="next-lesson">
+          <span id="next-lesson-label">Next</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </main>
+  </div><!-- /.app-shell -->
+
+  <!-- MODALS removed — not used -->
+
+  <!-- Toast notifications -->
+  <div class="toast-container" id="toast-container" role="status" aria-live="polite" aria-atomic="false"></div>
+
+  <!-- ===================== SCRIPTS ===================== -->
+  <script src="js/utils.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/glossary.js"></script>
+  <script src="js/demos.js"></script>
+  <script src="js/lab.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
