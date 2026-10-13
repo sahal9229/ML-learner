@@ -280,7 +280,7 @@ FML.lab = (function() {
     if (state.dataset === 'moons') {
       data = U.genMoons(N, state.noise);
     } else if (state.dataset === 'circles') {
-      data = U.genCircles(N, state.noise, 0.5);
+      data = U.genCircles(N, state.noise);
     } else if (state.dataset === 'xor') {
       data = U.genXOR(N, state.noise);
     } else if (state.dataset === 'blobs') {
@@ -288,7 +288,7 @@ FML.lab = (function() {
     } else if (state.dataset === 'linear') {
       data = U.genLinear(N, 0.6, 0.1, state.noise);
     } else if (state.dataset === 'sine') {
-      data = U.genSine(N, 1.0, state.noise);
+      data = U.genSine(N, state.noise);
     }
     state.currentData = data;
   }
@@ -364,7 +364,8 @@ FML.lab = (function() {
       let predictFn;
       if (modelType === 'knn') {
         const k = params.k || 3;
-        predictFn = (x, y) => U.knnPredict(train, [x, y], k);
+        const labels = train.map(p => p.label);
+        predictFn = (x, y) => U.knnPredict(train, { x, y }, k, labels).prediction;
       } else if (modelType === 'logreg') {
         // Simple linear hyperplane approximation
         let mx = 0, my = 0;
@@ -429,7 +430,8 @@ FML.lab = (function() {
       // Regression task
       // Fit linear model
       const { m, b } = U.fitLinear(train);
-      const r2 = U.r2Score(test.map(p => p.y), test.map(p => m * p.x + b));
+      const trainR2 = U.r2Score(train, m, b);
+      const testR2 = U.r2Score(test, m, b);
 
       // Draw fitted regression line
       ctx.strokeStyle = '#f0c040';
@@ -462,8 +464,8 @@ FML.lab = (function() {
       });
 
       return {
-        trainScore: Math.max(0, r2),
-        testScore: Math.max(0, r2)
+        trainScore: Math.max(0, trainR2),
+        testScore: Math.max(0, testR2)
       };
     }
   }
