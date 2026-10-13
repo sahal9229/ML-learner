@@ -137,6 +137,19 @@ The recent fixes are verified through headless Chromium/Edge automated integrati
 
 ---
 
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are very welcome! As an open-source educational platform, we welcome contributions from the community—whether it's adding new interactive algorithm demos, refining mathematical proofs, fixing bugs, or improving UI accessibility.
+
+1. **Fork** the repository
+2. **Create a Feature Branch** (`git checkout -b feature/amazing-feature`)
+3. **Commit Your Changes** (`git commit -m 'feat: add interactive transformer demo'`)
+4. **Push to the Branch** (`git push origin feature/amazing-feature`)
+5. **Open a Pull Request**
+
+---
+
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is open source and available under the [MIT License](LICENSE).
+
