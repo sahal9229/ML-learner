@@ -1,11 +1,24 @@
-# 🧠 Free Mind ML
+# 🧠 Free Mind ML (MLVerse)
 
 > **Zero-build, interactive, client-side educational platform for Machine Learning and Deep Learning from first principles to state of the art.**
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-mlverse.onrender.com-success?style=for-the-badge&logo=render&logoColor=white)](https://mlverse.onrender.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Vanilla JS](https://img.shields.io/badge/Vanilla-JavaScript-f7df1e.svg?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![Zero Build](https://img.shields.io/badge/Build-Zero--Dependency-brightgreen.svg)]()
 [![Platform](https://img.shields.io/badge/Platform-Web%20SPA-orange.svg)]()
+
+🌐 **Live Deployment**: [https://mlverse.onrender.com/](https://mlverse.onrender.com/)
+
+---
+
+## 💡 Why Free Mind ML?
+
+> *"When I was learning machine learning, I ran into a constant wall: the official documentation and textbooks were often too dense and hard to understand, and static images in tutorials made it nearly impossible to grasp the exact intuition behind why an algorithm works."*
+
+Most ML tutorials rely on dry formulas or passive static charts. You can't tweak the data points, you can't push an algorithm to its edge cases, and you can't visualize how a decision boundary shifts in real time when you change parameters like $k$, learning rate, or noise.
+
+**Free Mind ML** was built to solve this problem. It replaces static diagrams with **live, interactive canvas simulations** running right inside your browser. Here, you don't just read about algorithms—you interact with them, train them on synthetic datasets, and build genuine, visual intuition for how machine learning actually works.
 
 ---
 
@@ -43,6 +56,7 @@
 | **Rendering** | HTML5 Canvas API | High-performance 2D decision boundary rasters and scatter plots |
 | **Math Typesetting** | KaTeX (0.16.9 CDN) | Instant LaTeX mathematical typesetting |
 | **Charts** | Chart.js (4.4.0 CDN) | Supplemental loss curves and metrics |
+| **Deployment** | Render Cloud | Hosted live at [mlverse.onrender.com](https://mlverse.onrender.com/) |
 
 ---
 
